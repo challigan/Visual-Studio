@@ -7,10 +7,13 @@ function convertNames(names, nameFormat) {
         } else if (nameFormat === 'powerapps') {
             return name;
         } else {
-            const nameParts = name.split(/[\s,]+/);
-            return nameParts.join(' ');
+            return name;
         }
     });
 
     return outputNames;
 }
+
+module.exports = {
+    convertNames
+};
