@@ -40,7 +40,7 @@
         .centered {
             text-align: center;
         }
-        .github-logo {
+            .github-logo {
         width: 24px;
         height: 24px;
     }
@@ -81,16 +81,17 @@
         document.querySelector('form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const response = await fetch('/convert', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    names: document.querySelector('#names').value,
-                    nameFormat: document.querySelector('#nameFormat').value
-                }),
-            });
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+        names: document.querySelector('#names').value,
+        nameFormat: document.querySelector('#nameFormat').value
+    }),
+});
 
-            const result = await response.text();
-            document.querySelector('#output').value = result;
+const result = await response.text();
+document.querySelector('#output').value = result;
+
             document.querySelector('#copyBtn').style.display = 'block';
             document.querySelector('#resetBtn').style.display = 'block'; // Show the "Reset" button
         });
