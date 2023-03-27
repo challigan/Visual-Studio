@@ -73,13 +73,16 @@
         document.querySelector('form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const response = await fetch('/convert', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    names: document.querySelector('#names').value,
-                    nameFormat: document.querySelector('#nameFormat').value
-                }),
-            });
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    names: document.querySelector('#names').value,
+    nameFormat: document.querySelector('#nameFormat').value,
+  }),
+}).catch((error) => {
+  console.error('Error:', error);
+});
+
 
             const result = await response.text();
             document.querySelector('#output').value = result;

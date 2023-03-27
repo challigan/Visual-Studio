@@ -1,0 +1,7 @@
+[build]
+  functions = "functions"
+
+[[redirects]]
+  from = "/convert"
+  to = "/.netlify/functions/convert"
+  status = 200
