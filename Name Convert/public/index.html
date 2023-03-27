@@ -86,49 +86,7 @@
             </div>
         </div>
         <div id="description" class="mt-3 centered"></div> 
-        <div id="conversions" class="mt-3">
-            <h2>Previous Conversions</h2>
-            <% if (conversions.length === 0) { %>
-                <p>No conversions found.</p>
-            <% } else { %>
-                <ul>
-                    <% for (const conversion of conversions) { %>
-                        <li><a href="#" class="conversion-link" data-text="<%= conversion.response_text %>"><%= conversion.timestamp %></a></li>
-                    <% } %>
-                </ul>
-            <% } %>
-        </div>
-        <script>
-          // Fetch the user's conversion history and display it on the page
-          const fetchConversionHistory = async () => {
-            const response = await fetch('/.netlify/functions/history');
-            const history = await response.json();
         
-            const historyList = document.getElementById('conversion-history');
-            historyList.innerHTML = '';
-            history.forEach(record => {
-              const item = document.createElement('li');
-              item.textContent = record.converted_names;
-              item.addEventListener('click', () => {
-                document.getElementById('names').value = record.names;
-                document.getElementById('nameFormat').value = record.name_format;
-                document.querySelector('form').dispatchEvent(new Event('submit'));
-              });
-              historyList.appendChild(item);
-            });
-          };
-          fetchConversionHistory();
-
-          const conversionLinks = document.querySelectorAll('.conversion-link');
-conversionLinks.forEach(link => {
-    link.addEventListener('click', (event) => {
-        const text = event.target.dataset.text;
-        document.querySelector('#names').value = text;
-        document.querySelector('#output').value = '';
-    });
-});
-
-        </script>
         <footer class="mt-5 text-center">
             <hr>
             <p>Created by Carl Halligan</p>
