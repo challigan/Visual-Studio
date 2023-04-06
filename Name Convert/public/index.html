@@ -84,8 +84,8 @@
 });
 
 
-            const result = await response.text();
-            document.querySelector('#output').value = result;
+const data = await response.json();
+document.querySelector('#output').value = data.result;
             document.querySelector('#copyBtn').style.display = 'block';
             document.querySelector('#resetBtn').style.display = 'block'; // Show the "Reset" button
         });
