@@ -20,6 +20,7 @@
                     <option value="number">Number</option>
                     <option value="boolean">Boolean</option>
                     <option value="choice">Choice</option>
+                    <option value="array">Array</option>
                 </select>
                 <input type="text" name="column-name[]" class="column-name" placeholder="Column Name">
                 <select name="function[]" class="function">
@@ -29,6 +30,10 @@
                 
             </div>
         </div>
+        <p id="array-message" style="display: none; color: red; font-size: 0.9em; margin-top: 10px;margin-bottom: 10px;">
+            Array should only be used in the Filter Array action and will not work as a trigger action. <BR>
+            When using this with multiple conditions, please ensure all conditions are of type Array.<BR>
+        </p>
         <div class="operator">
             <select id="operator" name="operator">
                 <option value="" disabled selected>Select Operator</option>

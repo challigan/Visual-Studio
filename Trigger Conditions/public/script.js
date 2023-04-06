@@ -27,6 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         toggleOperatorVisibility();
+        document.getElementById('array-message').style.display = 'none';
+
 
        // Reset the operator
        const operatorSelect = document.getElementById('operator');
@@ -59,7 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
             string: ['equals', 'not-equals', 'contains', 'empty', 'not-empty', 'starts-with', 'ends-with'],
             number: ['equals', 'not-equals', 'greater-than', 'greater-or-equal', 'less-than', 'less-or-equal', 'empty', 'not-empty'],
             boolean: ['equals', 'not-equals'],
-            choice: ['equals', 'not-equals', 'empty', 'not-empty']
+            choice: ['equals', 'not-equals', 'empty', 'not-empty'],
+            array: ['equals', 'not-equals', 'greater-than', 'greater-or-equal', 'less-than', 'less-or-equal', 'empty', 'not-empty']
         };
 
         const type = columnTypeElement.value;
@@ -120,6 +123,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 newInput.placeholder = 'Column Value';
                 columnValueInput.replaceWith(newInput);
             }
+            if (columnTypeElement.value === 'number') {
+                columnValueInput.type = 'number';
+            } else {
+                columnValueInput.type = 'text';
+            }
+        }
+
+        toggleArrayMessage(columnTypeElement);
+    }
+
+    function toggleArrayMessage(columnTypeElement) {
+        const arrayMessage = document.getElementById('array-message');
+        if (columnTypeElement.value === 'array') {
+            arrayMessage.style.display = 'block';
+        } else {
+            arrayMessage.style.display = 'none';
         }
     }
 
@@ -135,29 +154,35 @@ document.addEventListener('DOMContentLoaded', () => {
         newRow.className = 'condition-row';
         newRow.innerHTML = conditionsContainer.firstElementChild.innerHTML;
         conditionsContainer.appendChild(newRow);
-
+    
         toggleOperatorVisibility();
-
-        
+    
         const operatorSelect = document.getElementById('operator');
         if (conditionsContainer.children.length > 1) {
             operatorSelect.required = true;
         } else {
             operatorSelect.required = false;
         }
-
+    
         const newColumnType = newRow.querySelector('.column-type');
         addEventListenersToColumnType(newColumnType);
-
+    
+        // Check if the first condition has "Array" selected and set the new condition's column type to "Array" if true
+        const firstColumnType = conditionsContainer.firstElementChild.querySelector('.column-type');
+        if (firstColumnType.value === 'array') {
+            newColumnType.value = 'array';
+        }
+    
         updateFunctionOptions(newColumnType);
         updateColumnValueInput(newColumnType);
-        
- 
     });
 
     conditionForm.querySelectorAll('.column-type').forEach(columnTypeElement => {
         addEventListenersToColumnType(columnTypeElement);
     });
+
+    const firstColumnTypeElement = conditionsContainer.firstElementChild.querySelector('.column-type');
+    addEventListenersToColumnType(firstColumnTypeElement);
 
     // Rest of the code for handling form submission
     conditionForm.addEventListener('submit', (event) => {
@@ -168,7 +193,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const functions = Array.from(conditionForm.querySelectorAll('.function'));
         const columnValues = Array.from(conditionForm.querySelectorAll('.column-value'));
         const operator = conditionForm.querySelector('#operator').value;
-    
+
         let triggerConditions = [];
         for (let i = 0; i < columnNames.length; i++) {
             const columnType = columnTypes[i].value;
@@ -184,46 +209,51 @@ document.addEventListener('DOMContentLoaded', () => {
         
             // Use 'null' if the column value is empty
             const formattedColumnValue = columnValue === '' ? 'null' : columnType === 'string' ? `'${columnValue}'` : columnValue;
-        
+
+            const triggerAccessor = columnType === 'array' ? 'item()' : 'triggerBody()';
+
             let condition = '';
             switch (func) {
                 case 'equals':
-                    condition = `@equals(triggerBody()?['${columnName}']${valueKey}, ${formattedColumnValue})`;
+                    condition = `@equals(${triggerAccessor}?['${columnName}']${valueKey}, ${formattedColumnValue})`;
+                    break;
+                case 'equals':
+                    condition = `@equals(${triggerAccessor}?['${columnName}']${valueKey}, ${formattedColumnValue})`;
                     break;
                 case 'not-equals':
-                    condition = `@not(equals(triggerBody()?['${columnName}']${valueKey}, ${formattedColumnValue}))`;
+                    condition = `@not(equals(${triggerAccessor}?['${columnName}']${valueKey}, ${formattedColumnValue}))`;
                     break;
                 case 'contains':
                     if (columnType === 'string') {
-                        condition = `@contains(triggerBody()?['${columnName}']${valueKey}, ${formattedColumnValue})`;
+                        condition = `@contains(${triggerAccessor}?['${columnName}']${valueKey}, ${formattedColumnValue})`;
                     }
                     break;
                 case 'greater-than':
-                    condition = `@greater(triggerBody()?['${columnName}']${valueKey}, ${formattedColumnValue})`;
+                    condition = `@greater(${triggerAccessor}?['${columnName}']${valueKey}, ${formattedColumnValue})`;
                     break;
                 case 'greater-or-equal':
-                    condition = `@greaterOrEquals(triggerBody()?['${columnName}']${valueKey}, ${formattedColumnValue})`;
+                    condition = `@greaterOrEquals(${triggerAccessor}?['${columnName}']${valueKey}, ${formattedColumnValue})`;
                     break;
                 case 'less-than':
-                    condition = `@less(triggerBody()?['${columnName}']${valueKey}, ${formattedColumnValue})`;
+                    condition = `@less(${triggerAccessor}?['${columnName}']${valueKey}, ${formattedColumnValue})`;
                     break;
                 case 'less-or-equal':
-                    condition = `@lessOrEquals(triggerBody()?['${columnName}']${valueKey}, ${formattedColumnValue})`;
+                    condition = `@lessOrEquals(${triggerAccessor}?['${columnName}']${valueKey}, ${formattedColumnValue})`;
                     break;
                     case 'empty':
-                        condition = `@empty(triggerBody()?['${columnName}']${valueKey})`;
+                        condition = `@empty(${triggerAccessor}?['${columnName}']${valueKey})`;
                         break;
                     case 'not-empty':
-                        condition = `@not(empty(triggerBody()?['${columnName}']${valueKey}))`;
+                        condition = `@not(empty(${triggerAccessor}?['${columnName}']${valueKey}))`;
                         break;
                     case 'starts-with':
                         if (columnType === 'string') {
-                            condition = `@startsWith(triggerBody()?['${columnName}']${valueKey}, ${formattedColumnValue})`;
+                            condition = `@startsWith(${triggerAccessor}?['${columnName}']${valueKey}, ${formattedColumnValue})`;
                         }
                         break;
                     case 'ends-with':
                         if (columnType === 'string') {
-                            condition = `@endsWith(triggerBody()?['${columnName}']${valueKey}, ${formattedColumnValue})`;
+                            condition = `@endsWith(${triggerAccessor}?['${columnName}']${valueKey}, ${formattedColumnValue})`;
                         }
                         break;
                 
