@@ -8,11 +8,14 @@
     <script src="script.js" defer></script>
 </head>
 <body>
+    <div class="banner">
+        <h1>Power Automate Trigger Generator</h1>
+    </div>
     <form id="condition-form">
         <div id="conditions-container">
             <div class="condition-row">
                 <select name="column-type[]" class="column-type">
-                    <option value=""></option>
+                    <option value="" disabled selected>Column Type</option>
                     <option value="string">String</option>
                     <option value="number">Number</option>
                     <option value="boolean">Boolean</option>
@@ -20,29 +23,26 @@
                 </select>
                 <input type="text" name="column-name[]" class="column-name" placeholder="Column Name">
                 <select name="function[]" class="function">
-                    <option value=""></option>
-                    <option value="equals">Equals</option>
-                    <option value="not-equals">Not Equals</option>
-                    <option value="contains">Contains</option>
-                    <option value="greater-than">Greater Than</option>
-                    <option value="greater-or-equal">Greater or Equal</option>
-                    <option value="less-than">Less Than</option>
-                    <option value="less-or-equal">Less or Equal</option>
+                    <option value="" disabled selected>Function</option>
                 </select>
                 <input type="text" name="column-value[]" class="column-value" placeholder="Column Value">
+                
             </div>
+        </div>
+        <div class="operator">
+            <select id="operator" name="operator">
+                <option value="" disabled selected>Select Operator</option>
+                <option value="and">AND</option>
+                <option value="or">OR</option>
+            </select>
         </div>
         <div class="button-container">
             <button type="button" id="add-condition">Add Condition</button>
             <button type="submit">Generate Trigger Condition</button>
         </div>
-                <div>
-            <input type="radio" id="and-operator" name="operator" value="and" checked>
-            <label for="and-operator">AND</label>
-            <input type="radio" id="or-operator" name="operator" value="or">
-            <label for="or-operator">OR</label>
-        </div>
+
     </form>
+    
     <div id="output"></div>
     <div class="output-buttons">
         <button type="reset" id="reset">Reset</button>

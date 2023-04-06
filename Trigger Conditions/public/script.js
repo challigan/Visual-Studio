@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const output = document.getElementById('output');
     const resetButton = document.getElementById('reset');
     const copyToClipboardButton = document.getElementById('copy-to-clipboard');
-
+      
     copyToClipboardButton.addEventListener('click', () => {
         if (output.innerHTML) {
             const tempTextArea = document.createElement('textarea');
@@ -26,6 +26,17 @@ document.addEventListener('DOMContentLoaded', () => {
             conditionsContainer.removeChild(conditionsContainer.lastChild);
         }
 
+        toggleOperatorVisibility();
+
+       // Reset the operator
+       const operatorSelect = document.getElementById('operator');
+       operatorSelect.selectedIndex = 0;
+       operatorSelect.required = false;
+       
+        // Clear the output
+       const outputElement = document.getElementById('output');
+       outputElement.innerHTML = '';
+       
         // Reset the first condition row
         conditionsContainer.firstElementChild.querySelector('.column-type').selectedIndex = 0;
         conditionsContainer.firstElementChild.querySelector('.column-name').value = '';
@@ -36,11 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
         updateFunctionOptions(firstColumnType);
         updateColumnValueInput(firstColumnType);
 
-        // Reset the operator
-        conditionForm.querySelector('input[name="operator"][value="and"]').checked = true;
-
-        // Clear the output
-        output.innerHTML = '';
+ 
+    
     });
 
     function updateFunctionOptions(columnTypeElement) {
@@ -72,6 +80,17 @@ document.addEventListener('DOMContentLoaded', () => {
             functionSelect.selectedIndex = 0;
         }
     }
+
+    function toggleOperatorVisibility() {
+        const operatorDropdown = document.getElementById('operator');
+        if (conditionsContainer.children.length > 1) {
+          operatorDropdown.style.display = 'block';
+          operatorDropdown.required = true;
+        } else {
+          operatorDropdown.style.display = 'none';
+          operatorDropdown.required = false;
+        }
+      }
 
     function updateColumnValueInput(columnTypeElement) {
         const columnValueInput = columnTypeElement.closest('.condition-row').querySelector('.column-value');
@@ -117,11 +136,23 @@ document.addEventListener('DOMContentLoaded', () => {
         newRow.innerHTML = conditionsContainer.firstElementChild.innerHTML;
         conditionsContainer.appendChild(newRow);
 
+        toggleOperatorVisibility();
+
+        
+        const operatorSelect = document.getElementById('operator');
+        if (conditionsContainer.children.length > 1) {
+            operatorSelect.required = true;
+        } else {
+            operatorSelect.required = false;
+        }
+
         const newColumnType = newRow.querySelector('.column-type');
         addEventListenersToColumnType(newColumnType);
 
         updateFunctionOptions(newColumnType);
         updateColumnValueInput(newColumnType);
+        
+ 
     });
 
     conditionForm.querySelectorAll('.column-type').forEach(columnTypeElement => {
@@ -136,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const columnNames = Array.from(conditionForm.querySelectorAll('.column-name'));
         const functions = Array.from(conditionForm.querySelectorAll('.function'));
         const columnValues = Array.from(conditionForm.querySelectorAll('.column-value'));
-        const operator = conditionForm.querySelector('input[name="operator"]:checked').value;
+        const operator = conditionForm.querySelector('#operator').value;
     
         let triggerConditions = [];
         for (let i = 0; i < columnNames.length; i++) {
@@ -223,4 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
             output.innerHTML = 'No valid conditions were provided.';
         }
     });
+
+    toggleOperatorVisibility();
+
 });
