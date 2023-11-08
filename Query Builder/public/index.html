@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ODATA Query Generator</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2258529317869180"
+     crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+
+</head>
+<body>
+  <header class="banner">
+    <h1 class="header-title">ODATA Query Generator</h1>
+    <nav class="horizontal-menu">
+        <a href="https://list.challigan.com/" class="menu-item">List Generator</a>
+        <a href="https://trigger.challigan.com/" class="menu-item">Trigger Condition Generator</a>
+        <a href="https://button.challigan.com/" class="menu-item">Flow Button Generator</a>
+        <a href="https://form.challigan.com/" class="menu-item">List Form Designer</a>
+
+    </nav>
+</header>
+
+    <form id="queryForm">
+        
+
+            <p id="instruction" style="font-size: 0.8em; margin-top: 10px;margin-bottom: 10px;">
+                To find out the name of your SharePoint column for use in your query; navigate to your SharePoint list, click the Cog at the top right and click on <span class="hover-image" data-image="ListSettings">List Settings</span>, then click on the <span class="hover-image" data-image="Column">name of your column</span>. The column name will be displayed <span class="hover-image" data-image="ColumnName">in the address bar URL</span> after 'Field=', copy all of the text after this and paste it into the Column Name fields above.
+              </p><BR>
+        <div class="condition">
+            
+            <input type="text" placeholder="Column Name" class="columnName">
+            
+            <select class="operator">
+                <option value="eq">Equals</option>
+                <option value="ne">Not Equals</option>
+                <option value="gt">Greater Than</option>
+                <option value="lt">Less Than</option>
+                <option value="ge">Greater or Equals</option>
+                <option value="le">Less or Equals</option>
+                <option value="startswith">Starts With</option>
+                <option value="substringof">Contains</option>
+            </select>
+            <input type="text" placeholder="Column Value" class="columnValue">
+            
+        </div>
+
+    </form>
+    <div class="output-buttons">
+        <button type="button" id="addCondition">Add Condition</button>
+        <button type="button" id="addGroup">Add Group</button>
+        <button type="button" id="generateQuery">Generate Query</button>
+
+      </div>
+    <div id="generatedQuery"></div>
+    <div class="output-buttons">
+
+        <button type="button" id="resetForm">Reset</button>
+        <button type="button" id="copyToClipboard">Copy to Clipboard</button>
+      </div>
+      <BR><BR><BR><BR>
+      <footer>
+        <div class="footer-content">Tools by CHalligan</div>
+        <a href="https://www.buymeacoffee.com/challigan87" class="buymeacoffee" target="_blank" rel="noopener noreferrer">Buy Me A Coffee</a>
+      </footer>
+      
+</body>
+</html>

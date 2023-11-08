@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Condition Builder</title>
+</head>
+<body>
+    <h1>Condition Builder</h1>
+    <div id="condition-groups-container">
+        <div class="condition-group">
+            <button class="remove-group-btn" disabled>Remove Group</button>
+            <div class="expression-row">
+                <select class="column-selector">
+                    <option value="" disabled selected>Column Type</option>
+                    <option value="string">String</option>
+                    <option value="number">Number</option>
+                    <option value="boolean">Boolean</option>
+                    <option value="choice">Choice</option>
+                    <option value="array">Array</option>                </select>
+                <select class="comparison-function-selector">
+                    <option value="" disabled selected>Function</option>
+                </select>
+                <input class="value-input" type="text">
+                <button class="remove-expression-btn" disabled>Remove Expression</button>
+            </div>
+            <button class="add-expression-btn">Add Expression</button>
+        </div>
+    </div>
+    <button id="add-condition-group-btn">Add Condition Group</button>
+    <button id="generate-condition-string-btn">Generate Condition String</button>
+    <div id="output"></div>
+</body>
+</html>

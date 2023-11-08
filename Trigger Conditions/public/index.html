@@ -4,14 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Power Automate Trigger Conditions</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2258529317869180"
+     crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
 </head>
 <body>
-    <div class="banner">
-        <h1>Power Automate Trigger Generator</h1>
-    </div>
+    <header class="banner">
+        <h1 class="header-title">Power Automate Trigger Generator</h1>
+        <nav class="horizontal-menu">
+            <a href="https://list.challigan.com/" class="menu-item">List Generator</a>
+            <a href="https://button.challigan.com/" class="menu-item">Flow Button Generator</a>
+            <a href="https://odata.challigan.com/" class="menu-item">ODATA Query Generator</a>
+            <a href="https://form.challigan.com/" class="menu-item">List Form Designer</a>
+
+        </nav>
+    </header>
     <form id="condition-form">
+        <p id="instruction" style="font-size: 0.8em; margin-top: 10px;margin-bottom: 10px;">
+            To find out the name of your SharePoint column for use in a trigger condition; navigate to your SharePoint list, click the Cog at the top right and click on <span class="hover-image" data-image="ListSettings">List Settings</span>, then click on the <span class="hover-image" data-image="Column">name of your column</span>. The column name will be displayed <span class="hover-image" data-image="ColumnName">in the address bar URL</span> after 'Field=', copy all of the text after this and paste it into the Column Name fields above.
+          </p><BR>
         <div id="conditions-container">
             <div class="condition-row">
                 <select name="column-type[]" class="column-type">
@@ -27,31 +39,34 @@
                     <option value="" disabled selected>Function</option>
                 </select>
                 <input type="text" name="column-value[]" class="column-value" placeholder="Column Value">
-                
             </div>
         </div>
-        <p id="array-message" style="display: none; color: red; font-size: 0.9em; margin-top: 10px;margin-bottom: 10px;">
-            Array should only be used in the Filter Array action and will not work as a trigger action. <BR>
-            When using this with multiple conditions, please ensure all conditions are of type Array.<BR>
-        </p>
+
         <div class="operator">
             <select id="operator" name="operator">
                 <option value="" disabled selected>Select Operator</option>
                 <option value="and">AND</option>
                 <option value="or">OR</option>
             </select>
-        </div>
-        <div class="button-container">
-            <button type="button" id="add-condition">Add Condition</button>
-            <button type="submit">Generate Trigger Condition</button>
-        </div>
-
+        </div>  
+        <p id="array-message" style="display: none; color: rgb(0, 0, 0); font-size: 0.9em; margin-top: 10px;margin-bottom: 10px;">
+            Array should only be used in the Filter Array action and will not work as a trigger action. <BR>
+            When using this with multiple conditions, please ensure all conditions are of type Array.<BR><BR>
+        </p>
     </form>
-    
+    <div class="output-buttons">
+        <button type="button" id="add-condition">Add Condition</button>
+        <button type="submit" id="generate-trigger-condition">Generate Trigger Condition</button>
+    </div>
     <div id="output"></div>
     <div class="output-buttons">
         <button type="reset" id="reset">Reset</button>
         <button type="button" id="copy-to-clipboard">Copy to Clipboard</button>
     </div>
+    <footer>
+        <div class="footer-content">Tools by CHalligan</div>
+        <a href="https://www.buymeacoffee.com/challigan87" class="buymeacoffee" target="_blank" rel="noopener noreferrer">Buy Me A Coffee</a>
+      </footer>
+      <BR><BR><BR><BR>
 </body>
 </html>

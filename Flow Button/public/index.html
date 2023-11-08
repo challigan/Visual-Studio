@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Flow Button Generator</title>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2258529317869180"
+         crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js"></script>
+    
+    </head>
+
+</head>
+<body>
+    <header class="banner">
+        <h1 class="header-title">Flow Button Generator</h1>
+        <nav class="horizontal-menu">
+            <a href="https://list.challigan.com/" class="menu-item">List Generator</a>
+            <a href="https://trigger.challigan.com/" class="menu-item">Trigger Condition Generator</a>
+            <a href="https://odata.challigan.com/" class="menu-item">ODATA Query Generator</a>
+            <a href="https://form.challigan.com/" class="menu-item">List Form Designer</a>
+        </nav>
+    </header>
+<form>
+
+    <form id="jsonForm">
+      Flow ID: <input type="text" id="flowId"><br>
+      Button Text: <input type="text" id="buttonText"><br>
+      Button Color: <input type="text" id="color"><br>
+      Include Visibility Rule: <input type="checkbox" id="includeVisibility" onchange="toggleVisibilityFields()"><br>
+      <div id="visibilityFields" style="display: none;"><br>
+        Column Name: <input type="text" id="columnName"><br>
+        Column Value: <input type="text" id="columnValue"><br>
+      </div>
+      <input type="button" value="Generate JSON" onclick="generateJson()">
+      <div id="resultContainer">
+        <p id="result"></p>
+        <div id="buttonContainer">
+          <button id="copyButton" style="display: none;" onclick="copyToClipboard()">Copy to Clipboard</button>
+          <button id="resetButton" style="display: none;" onclick="resetForm()">Reset</button>
+        </div>
+      </div>
+    </form>
+    
+
+
+</form>
+
+
+    <script>
+function resetForm() {
+  document.getElementById('jsonForm').reset();
+  document.getElementById('result').textContent = '';
+  toggleVisibilityFields();
+  document.getElementById('copyButton').style.display = 'none';
+  document.getElementById('resetButton').style.display = 'none';
+}
+
+function copyToClipboard() {
+  var range = document.createRange();
+  range.selectNode(document.getElementById('result'));
+  window.getSelection().removeAllRanges();
+  window.getSelection().addRange(range);
+  document.execCommand('copy');
+  window.getSelection().removeAllRanges();
+}
+    function toggleVisibilityFields() {
+      var includeVisibility = document.getElementById('includeVisibility').checked;
+      document.getElementById('visibilityFields').style.display = includeVisibility ? 'block' : 'none';
+    }
+    
+    function generateJson() {
+  var flowId = document.getElementById('flowId').value;
+  var buttonText = document.getElementById('buttonText').value;
+  var color = document.getElementById('color').value;
+  var includeVisibility = document.getElementById('includeVisibility').checked;
+  var columnName = document.getElementById('columnName').value;
+  var columnValue = document.getElementById('columnValue').value;
+
+  var json = {
+    "$schema": "https://developer.microsoft.com/json-schemas/sp/v2/column-formatting.schema.json",
+    "elmType": "button",
+    "customRowAction": {
+      "action": "executeFlow",
+      "actionParams": "{\"id\": \"" + flowId + "\"}"
+    },
+    "attributes": {
+      "class": "ms-fontColor-themePrimary ms-fontColor-themeDarker--hover"
+    },
+    "style": {
+      "border": "1px black solid",
+      "background-color": color,
+      "cursor": "pointer",
+      "margin": "4px",
+      "color": "white",
+    },
+    "children": [
+      {
+        "elmType": "span",
+        "attributes": {
+          "iconName": "Flow"
+        },
+        "style": {
+          "padding-right": "6px"
+        }
+      },
+      {
+        "elmType": "span",
+        "txtContent": buttonText
+      }
+    ]
+  };
+
+  if (includeVisibility) {
+    json["visibility"] = "=if(([$" + columnName + "] == '" + columnValue + "'),'visible','hidden')";
+  }
+
+  document.getElementById('result').textContent = JSON.stringify(json, null, 2);
+  document.getElementById('copyButton').style.display = 'block';
+  document.getElementById('resetButton').style.display = 'block';
+}
+toggleVisibilityFields();
+</script>
+<footer>
+    <div class="footer-content">Tools by CHalligan</div>
+    <a href="https://www.buymeacoffee.com/challigan87" class="buymeacoffee" target="_blank" rel="noopener noreferrer">Buy Me A Coffee</a>
+  </footer>
+</body>
+</html>

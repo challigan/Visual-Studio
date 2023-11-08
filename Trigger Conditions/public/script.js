@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const output = document.getElementById('output');
     const resetButton = document.getElementById('reset');
     const copyToClipboardButton = document.getElementById('copy-to-clipboard');
+    
       
     copyToClipboardButton.addEventListener('click', () => {
         if (output.innerHTML) {
@@ -184,8 +185,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const firstColumnTypeElement = conditionsContainer.firstElementChild.querySelector('.column-type');
     addEventListenersToColumnType(firstColumnTypeElement);
 
+    
+
     // Rest of the code for handling form submission
-    conditionForm.addEventListener('submit', (event) => {
+    document.getElementById('generate-trigger-condition').addEventListener('click', (event) => {
         event.preventDefault();
     
         const columnTypes = Array.from(conditionForm.querySelectorAll('.column-type'));
@@ -208,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const valueKey = columnType === 'choice' ? "?['Value']" : '';
         
             // Use 'null' if the column value is empty
-            const formattedColumnValue = columnValue === '' ? 'null' : columnType === 'string' ? `'${columnValue}'` : columnValue;
+            const formattedColumnValue = columnValue === '' ? 'null' : columnType === 'string' ? `'${columnValue}'` : columnType === 'array' ? `'${columnValue}'` : columnType === 'choice' ? `'${columnValue}'` : columnValue;
 
             const triggerAccessor = columnType === 'array' ? 'item()' : 'triggerBody()';
 
